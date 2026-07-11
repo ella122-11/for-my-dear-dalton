@@ -357,15 +357,26 @@
         renderTodoList();
     }
 
-    function renderTodoList() {
+function renderTodoList() {
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
-        MASTER_TASKS.forEach(task => {
+        const getDeadlineDate = (deadline) => {
+            if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term")) {
+                return new Date("9999-12-31"); 
+            }
+            return new Date(deadline);
+        };
+
+        const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
+            return getDeadlineDate(a.deadline) - getDeadlineDate(b.deadline);
+        });
+
+        sortedTasks.forEach(task => {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-
+            
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
