@@ -191,7 +191,7 @@
     let currentUser = null;
     let userProgress = {};
 
-    // KUNIN AGAD ANG BACKUP SA STORAGE PARA HINDI MALINIS ANG DASHBOARD KUNG OFFLINE
+    // I-load agad ang kung ano mang mayroon sa local storage bago magsimula ang kahit anong network checking
     const localBackup = localStorage.getItem('dalton_todo_progress');
     if (localBackup) {
         userProgress = JSON.parse(localBackup);
@@ -227,26 +227,32 @@
     });
 
     async function checkUserSession() {
+        // I-render na agad ang UI gamit ang local data para hindi mukhang blangko habang naglo-load ang network
+        if (Object.keys(userProgress).length > 0) {
+            showDashboard();
+            renderTodoList();
+        }
+
         try {
             const { data: { session }, error } = await supabaseClient.auth.getSession();
             if (session && !error) {
                 currentUser = session.user;
                 showDashboard();
-                await fetchUserProgress(); // Susubukang kumuha sa server
+                await fetchUserProgress(); 
             } else {
-                // Kung walang session o walang net, gumamit ng local mode basta may nakasave na progress dati
                 handleOfflineFallback();
             }
         } catch (netError) {
-            // Sasalo kapag network block or timeout error ang nangyari sa fetch
             handleOfflineFallback();
         }
     }
 
     function handleOfflineFallback() {
         showDashboard();
-        document.getElementById('user-email').innerText = "Offline Mode";
-        renderTodoList(); // I-render pa rin ang mga tasks kahit walang net gamit ang local storage data
+        if (!currentUser) {
+            document.getElementById('user-email').innerText = "Offline Mode";
+        }
+        renderTodoList(); 
     }
 
     function showDashboard() {
@@ -257,7 +263,10 @@
     }
 
     async function fetchUserProgress() {
-        if (!currentUser) return;
+        if (!currentUser || !navigator.onLine) {
+            renderTodoList();
+            return;
+        }
         
         try {
             const { data, error } = await supabaseClient
@@ -273,10 +282,8 @@
                 localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
             }
         } catch (err) {
-            console.log("Supabase fetch failed, standardizing to local data.");
+            console.log("Supabase fetch failed. Staying on local data state.");
         }
-        
-        // Kahit nabigo o nagtagumpay ang live fetch, siguraduhing tinatawag ang renderer para lumabas ang tasks
         renderTodoList();
     }
 
@@ -313,13 +320,16 @@
                 const taskId = e.target.getAttribute('data-id');
                 const isChecked = e.target.checked;
                 
+                // 1. MA-SAVE AGAD SA LOCAL MEMORY (Kahit walang net, ligtas na ang data rito)
                 userProgress[taskId] = isChecked;
                 localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
 
+                // UI Update shortcut
                 const itemParent = e.target.closest('.todo-item');
                 if (isChecked) itemParent.classList.add('completed');
                 else itemParent.classList.remove('completed');
 
+                // 2. BACKEND SYNC: Gagana lang ang push sa database kung may user session at may internet connection
                 if (currentUser && navigator.onLine) {
                     try {
                         await supabaseClient
@@ -330,7 +340,7 @@
                                 is_completed: isChecked
                             }, { onConflict: 'user_id,task_id' });
                     } catch (error) {
-                        console.error("Database sync skipped (saved locally):", error.message);
+                        console.error("Database upsert failed, safely backed up locally.");
                     }
                 }
             });
