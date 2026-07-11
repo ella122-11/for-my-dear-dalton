@@ -170,28 +170,99 @@
     const MASTER_TASKS = [
         {
             id: "task_001",
-            title: "Introduction to Acid-Base Equilibrium",
-            description: "Review pH scale, strong vs weak acids, and conjugate pairs.",
-            deadline: "July 15, 11:59 PM"
+            title: "Pre-Calculus: Parabola in Real-Life Activity",
+            description: "Check Google Classroom for more information..",
+            deadline: "No specific date"
         },
         {
             id: "task_002",
-            title: "Electrochemistry & Voltaic Cells",
-            description: "Understand anode/cathode dynamics and standard cell potential.",
-            deadline: "July 20, 11:59 PM"
+            title: "Pre-Calculus: Quiz#2",
+            description: "Check Google Classroom for more information.",
+            deadline: "No specific Date"
         },
         {
             id: "task_003",
-            title: "Thermodynamics Assignment",
-            description: "Study Gibbs Free Energy calculations for spontaneous processes.",
-            deadline: "July 25, 11:59 PM"
-        }
+            title: "Filipino: Pink Long Clear Book Compilation of Works",
+            description: "Compilation of activities and quizzes.",
+            deadline: "End of term"
+        },
+        {
+            id: "task_004",
+            title: "Pre-Calculus: Summative Test",
+            description: "Review from circle to ellipse.",
+            deadline: "July 13"
+        },
+        {
+            id: "task_005",
+            title: "Filipino: Group Presentation",
+            description: "Continuation of group presentation for Katitikan ng Pulong.",
+            deadline: "July 13"
+        },
+        {
+            id: "task_006",
+            title: "Practical Research 2: Checking of Final Draft of Background of the Study and Proposed Title",
+            description: "Checking of final draft of Background of the study and proposed title of your studies.",
+            deadline: "July 13"
+        },
+        {
+            id: "task_007",
+            title: "Physics: Friday Asynchronous Activity",
+            description: "Summary notes about the 3 videos sent, and answer word  problem.",
+            deadline: "July 13"
+        },
+        {
+            id: "task_008",
+            title: "EAPP: Friday Asynchronous Activity",
+            description: "Before bed time, recall how your day was during the 1st cancellation of classes today. Front page, short paragraph of summary about your day and at the back of the paper, rewrite it using roman numerals, letters, and hindu arabic numbers to separate main point and key points.",
+            deadline: "July 13"
+        },
+        {
+            id: "task_009",
+            title: "Filipino: Friday Asynchronous Activity",
+            description: "Group 1 & 2, write a reflection about your group presentation last Thursday and Group 3 & 4, write a summary about the minutes of the meeting prepared, and upload it on the Google Drive given.",
+            deadline: "July 11"
+        },
+        {
+            id: "task_010",
+            title: "Practical Research 2: Friday Asynchronous Activity",
+            description: "Submit the outline of your background of the study and proposed title.",
+            deadline: "July 11"
+        },
+        {
+            id: "task_011",
+            title: "HOPE 3: Friday Asynchronous Activity",
+            description: "Answer the Google Form given.",
+            deadline: "July 11"
+        },
+        {
+            id: "task_012",
+            title: "HOPE 3: Basic Steps Performance",
+            description: "Dance presentation of each groups using basic steps.",
+            deadline: "July 15"
+        },
+        {
+            id: "task_013",
+            title: "HOPE 3: Summative Test",
+            description: "Review about fundamental and basic steps.",
+            deadline: "July 15"
+        },
+        {
+            id: "task_014",
+            title: "Filipino: Aralin 4 Quiz",
+            description: "Answer Google Form given.",
+            deadline: "July 11, 12:25 PM"
+        },
+        {
+            id: "task_015",
+            title: "EAPP: Saturday Asynchronous Activity",
+            description: "Write the important key points of lessons 1 to 3 on your notebook based on the PDF sent. Make sure to highlight main ideas and key points.",
+            deadline: "July 13"
+        },
     ];
 
     let currentUser = null;
     let userProgress = {};
 
-    // I-load agad ang kung ano mang mayroon sa local storage bago magsimula ang kahit anong network checking
     const localBackup = localStorage.getItem('dalton_todo_progress');
     if (localBackup) {
         userProgress = JSON.parse(localBackup);
@@ -227,7 +298,6 @@
     });
 
     async function checkUserSession() {
-        // I-render na agad ang UI gamit ang local data para hindi mukhang blangko habang naglo-load ang network
         if (Object.keys(userProgress).length > 0) {
             showDashboard();
             renderTodoList();
@@ -238,7 +308,7 @@
             if (session && !error) {
                 currentUser = session.user;
                 showDashboard();
-                await fetchUserProgress(); 
+                await fetchUserProgress();
             } else {
                 handleOfflineFallback();
             }
@@ -252,7 +322,7 @@
         if (!currentUser) {
             document.getElementById('user-email').innerText = "Offline Mode";
         }
-        renderTodoList(); 
+        renderTodoList();
     }
 
     function showDashboard() {
@@ -267,7 +337,7 @@
             renderTodoList();
             return;
         }
-        
+
         try {
             const { data, error } = await supabaseClient
                 .from('user_progress')
@@ -295,7 +365,7 @@
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-            
+
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
@@ -319,17 +389,14 @@
             checkbox.addEventListener('change', async (e) => {
                 const taskId = e.target.getAttribute('data-id');
                 const isChecked = e.target.checked;
-                
-                // 1. MA-SAVE AGAD SA LOCAL MEMORY (Kahit walang net, ligtas na ang data rito)
+
                 userProgress[taskId] = isChecked;
                 localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
 
-                // UI Update shortcut
                 const itemParent = e.target.closest('.todo-item');
                 if (isChecked) itemParent.classList.add('completed');
                 else itemParent.classList.remove('completed');
 
-                // 2. BACKEND SYNC: Gagana lang ang push sa database kung may user session at may internet connection
                 if (currentUser && navigator.onLine) {
                     try {
                         await supabaseClient
