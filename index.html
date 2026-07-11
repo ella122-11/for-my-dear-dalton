@@ -300,7 +300,7 @@
     async function checkUserSession() {
         try {
             const { data: { session }, error } = await supabaseClient.auth.getSession();
-            
+
             if (session && !error) {
                 currentUser = session.user;
                 showDashboard();
@@ -313,7 +313,7 @@
             showLogin();
         }
     }
-    
+
 function showLogin() {
         document.getElementById('auth-section').classList.remove('hidden');
         document.getElementById('tracker-area').classList.add('hidden');
@@ -364,6 +364,13 @@ function renderTodoList() {
         };
 
         const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
+            const isCheckedA = userProgress[a.id] || false;
+            const isCheckedB = userProgress[b.id] || false;
+
+            if (isCheckedA !== isCheckedB) {
+                return isCheckedA - isCheckedB; 
+            }
+
             return getDeadlineDate(a.deadline) - getDeadlineDate(b.deadline);
         });
 
@@ -371,7 +378,7 @@ function renderTodoList() {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-
+            
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
@@ -390,7 +397,7 @@ function renderTodoList() {
         initCheckboxListeners();
     }
 
-    function initCheckboxListeners() {
+function initCheckboxListeners() {
         document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', async (e) => {
                 const taskId = e.target.getAttribute('data-id');
@@ -399,22 +406,12 @@ function renderTodoList() {
                 userProgress[taskId] = isChecked;
                 localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
 
-                const itemParent = e.target.closest('.todo-item');
-                if (isChecked) itemParent.classList.add('completed');
-                else itemParent.classList.remove('completed');
+                renderTodoList();
 
                 if (currentUser && navigator.onLine) {
-                    try {
-                        await supabaseClient
-                            .from('user_progress')
-                            .upsert({
-                                user_id: currentUser.id,
-                                task_id: taskId,
-                                is_completed: isChecked
-                            }, { onConflict: 'user_id,task_id' });
-                    } catch (error) {
-                        console.error("Database upsert failed, safely backed up locally.");
-                    }
+                    await supabaseClient
+                        .from('user_progress')
+                        .upsert({ user_id: currentUser.id, task_id: taskId, is_completed: isChecked }, { onConflict: 'user_id,task_id' });
                 }
             });
         });
