@@ -203,6 +203,7 @@
             return;
         }
 
+        // Awtomatiko nitong kinukuha ang iyong kasalukuyang Vercel URL address
         const targetRedirect = window.location.origin + window.location.pathname;
 
         const { error } = await supabaseClient.auth.signInWithOtp({
@@ -258,7 +259,7 @@
 
     async function fetchUserProgress() {
         if (!currentUser) return;
-
+        
         const { data, error } = await supabaseClient
             .from('user_progress')
             .select('task_id, is_completed')
@@ -281,7 +282,7 @@
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-
+            
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
@@ -305,7 +306,7 @@
             checkbox.addEventListener('change', async (e) => {
                 const taskId = e.target.getAttribute('data-id');
                 const isChecked = e.target.checked;
-
+                
                 userProgress[taskId] = isChecked;
                 localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
 
@@ -332,7 +333,6 @@
 
     checkUserSession();
 
-    // REGISTER SERVICE WORKER FOR OFFLINE AVAILABILITY
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
