@@ -191,6 +191,7 @@
     let currentUser = null;
     let userProgress = {};
 
+    // KUNIN AGAD ANG BACKUP SA STORAGE PARA HINDI MALINIS ANG DASHBOARD KUNG OFFLINE
     const localBackup = localStorage.getItem('dalton_todo_progress');
     if (localBackup) {
         userProgress = JSON.parse(localBackup);
@@ -203,7 +204,6 @@
             return;
         }
 
-        // Awtomatiko nitong kinukuha ang iyong kasalukuyang Vercel URL address
         const targetRedirect = window.location.origin + window.location.pathname;
 
         const { error } = await supabaseClient.auth.signInWithOtp({
@@ -228,26 +228,25 @@
 
     async function checkUserSession() {
         try {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            if (session && !error) {
                 currentUser = session.user;
                 showDashboard();
-                await fetchUserProgress();
-                renderTodoList();
+                await fetchUserProgress(); // Susubukang kumuha sa server
             } else {
-                if (Object.keys(userProgress).length > 0) {
-                    showDashboard();
-                    document.getElementById('user-email').innerText = "Offline Mode";
-                    renderTodoList();
-                }
+                // Kung walang session o walang net, gumamit ng local mode basta may nakasave na progress dati
+                handleOfflineFallback();
             }
         } catch (netError) {
-            if (Object.keys(userProgress).length > 0) {
-                showDashboard();
-                document.getElementById('user-email').innerText = "Offline Mode";
-                renderTodoList();
-            }
+            // Sasalo kapag network block or timeout error ang nangyari sa fetch
+            handleOfflineFallback();
         }
+    }
+
+    function handleOfflineFallback() {
+        showDashboard();
+        document.getElementById('user-email').innerText = "Offline Mode";
+        renderTodoList(); // I-render pa rin ang mga tasks kahit walang net gamit ang local storage data
     }
 
     function showDashboard() {
@@ -260,18 +259,25 @@
     async function fetchUserProgress() {
         if (!currentUser) return;
         
-        const { data, error } = await supabaseClient
-            .from('user_progress')
-            .select('task_id, is_completed')
-            .eq('user_id', currentUser.id);
+        try {
+            const { data, error } = await supabaseClient
+                .from('user_progress')
+                .select('task_id, is_completed')
+                .eq('user_id', currentUser.id);
 
-        if (data) {
-            userProgress = {};
-            data.forEach(row => {
-                userProgress[row.task_id] = row.is_completed;
-            });
-            localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
+            if (data && !error) {
+                userProgress = {};
+                data.forEach(row => {
+                    userProgress[row.task_id] = row.is_completed;
+                });
+                localStorage.setItem('dalton_todo_progress', JSON.stringify(userProgress));
+            }
+        } catch (err) {
+            console.log("Supabase fetch failed, standardizing to local data.");
         }
+        
+        // Kahit nabigo o nagtagumpay ang live fetch, siguraduhing tinatawag ang renderer para lumabas ang tasks
+        renderTodoList();
     }
 
     function renderTodoList() {
@@ -314,17 +320,17 @@
                 if (isChecked) itemParent.classList.add('completed');
                 else itemParent.classList.remove('completed');
 
-                if (currentUser) {
-                    const { error } = await supabaseClient
-                        .from('user_progress')
-                        .upsert({
-                            user_id: currentUser.id,
-                            task_id: taskId,
-                            is_completed: isChecked
-                        }, { onConflict: 'user_id,task_id' });
-
-                    if (error) {
-                        console.error("Database sync failed (saved locally instead):", error.message);
+                if (currentUser && navigator.onLine) {
+                    try {
+                        await supabaseClient
+                            .from('user_progress')
+                            .upsert({
+                                user_id: currentUser.id,
+                                task_id: taskId,
+                                is_completed: isChecked
+                            }, { onConflict: 'user_id,task_id' });
+                    } catch (error) {
+                        console.error("Database sync skipped (saved locally):", error.message);
                     }
                 }
             });
