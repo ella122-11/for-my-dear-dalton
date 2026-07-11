@@ -226,7 +226,7 @@
             id: "task_010",
             title: "Practical Research 2: Friday Asynchronous Activity",
             description: "Submit the outline of your background of the study and proposed title.",
-            deadline: "No specific date"
+            deadline: "July 11"
         },
         {
             id: "task_011",
@@ -317,15 +317,17 @@
         }
     }
 
-    function handleOfflineFallback() {
-        showDashboard();
-        if (!currentUser) {
-            document.getElementById('user-email').innerText = "Offline Mode";
+function handleOfflineFallback() {
+        if (currentUser) {
+            showDashboard();
+        } else {
+            document.getElementById('auth-section').classList.remove('hidden');
+            document.getElementById('tracker-area').classList.add('hidden');
         }
         renderTodoList();
     }
 
-    function showDashboard() {
+function showDashboard() {
         document.getElementById('auth-section').classList.add('hidden');
         document.getElementById('user-info').classList.remove('hidden');
         document.getElementById('user-email').innerText = currentUser ? currentUser.email : "Offline Mode";
@@ -363,7 +365,7 @@ function renderTodoList() {
 
         const getDeadlineDate = (deadline) => {
             if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term")) {
-                return new Date("9999-12-31"); 
+                return new Date("9999-12-31");
             }
             return new Date(deadline);
         };
@@ -376,7 +378,7 @@ function renderTodoList() {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-            
+
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
