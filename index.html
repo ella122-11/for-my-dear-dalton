@@ -298,31 +298,26 @@
     });
 
     async function checkUserSession() {
-        if (Object.keys(userProgress).length > 0) {
-            showDashboard();
-            renderTodoList();
-        }
-
         try {
             const { data: { session }, error } = await supabaseClient.auth.getSession();
+            
             if (session && !error) {
                 currentUser = session.user;
                 showDashboard();
                 await fetchUserProgress();
             } else {
-                handleOfflineFallback();
+                showLogin();
             }
         } catch (netError) {
-            handleOfflineFallback();
+            alert("Please check your internet connection to login.");
+            showLogin();
         }
     }
-
-    function handleOfflineFallback() {
-        showDashboard();
-        if (!currentUser) {
-            document.getElementById('user-email').innerText = "Offline Mode";
-        }
-        renderTodoList();
+    
+function showLogin() {
+        document.getElementById('auth-section').classList.remove('hidden');
+        document.getElementById('tracker-area').classList.add('hidden');
+        document.getElementById('user-info').classList.add('hidden');
     }
 
     function showDashboard() {
@@ -363,7 +358,7 @@ function renderTodoList() {
 
         const getDeadlineDate = (deadline) => {
             if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term")) {
-                return new Date("9999-12-31"); 
+                return new Date("9999-12-31");
             }
             return new Date(deadline);
         };
@@ -376,7 +371,7 @@ function renderTodoList() {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-            
+
             let deadlineHTML = '';
             if (task.deadline) {
                 deadlineHTML = `<div class="todo-deadline">Due: ${task.deadline}</div>`;
