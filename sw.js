@@ -1,4 +1,4 @@
-const CACHE_NAME = 'daltons-todo-v3'; 
+const CACHE_NAME = 'daltons-todo-v4'; 
 
 self.addEventListener('install', (event) => {
     self.skipWaiting(); 
