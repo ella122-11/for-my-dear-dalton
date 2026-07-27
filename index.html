@@ -554,7 +554,7 @@
         }
     }
 
-    function showLogin() {
+function showLogin() {
         document.getElementById('auth-section').classList.remove('hidden');
         document.getElementById('tracker-area').classList.add('hidden');
         document.getElementById('user-info').classList.add('hidden');
@@ -592,7 +592,7 @@
         renderTodoList();
     }
 
-    function renderTodoList() {
+function renderTodoList() {
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
@@ -600,11 +600,7 @@
             if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term")) {
                 return new Date("9999-12-31");
             }
-            let cleanDeadline = deadline;
-            if (!deadline.includes("2026")) {
-                cleanDeadline = `${deadline}, 2026`;
-            }
-            return new Date(cleanDeadline);
+            return new Date(deadline);
         };
 
         const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
@@ -641,7 +637,7 @@
         initCheckboxListeners();
     }
 
-    function initCheckboxListeners() {
+function initCheckboxListeners() {
         document.querySelectorAll('.todo-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', async (e) => {
                 const taskId = e.target.getAttribute('data-id');
