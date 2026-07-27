@@ -596,13 +596,22 @@ function renderTodoList() {
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
-        const getDeadlineDate = (deadline) => {
-            if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term")) {
-                return new Date("9999-12-31");
-            }
-            return new Date(deadline);
-        };
+const getDeadlineDate = (deadline) => {
+    if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term") || deadline.toLowerCase().includes("next week") || deadline.toLowerCase().includes("before exam")) {
+        return new Date("9999-12-31");
+    }
+    
+    if (deadline.toLowerCase().includes(" or ")) {
+        deadline = deadline.split(" or ")[0];
+    }
 
+    const parsedDate = new Date(deadline);
+    if (isNaN(parsedDate)) {
+        return new Date("9999-12-31");
+    }
+    
+    return parsedDate;
+};
         const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
             const isCheckedA = userProgress[a.id] || false;
             const isCheckedB = userProgress[b.id] || false;
