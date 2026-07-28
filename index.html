@@ -446,9 +446,9 @@
         },
         {
             id: "task_047",
-            title: "Pre-Calculus: PETA Presentation",
-            description: "Performance task about the application of circle, parabola, ellipse, and hypebrola. Check your own copy for more information.",
-            deadline: "Before exam"
+            title: "Pre-Calculus: Submission of PETA",
+            description: "The picture of the output should be sent on weekends before August 24 so it can be checked first before the presentation.",
+            deadline: "August 24"
         },
         {
             id: "task_048",
@@ -497,6 +497,48 @@
             title: "Filipino: Monday Asynchronous Activity",
             description: "Check Filipino GC for more information.",
             deadline: "July 27"
+        },
+        {
+            id: "task_056",
+            title: "Pre-Calculus: Submission of PETA",
+            description: "The picture of the output should be sent on weekends before August 24 so it can be checked first before the presentation.",
+            deadline: "August 22"
+        },
+        {
+            id: "task_057",
+            title: "General Physics: 2nd Summative Test",
+            description: "Review for a summative test. Good luck!",
+            deadline: "August 3"
+        },
+        {
+            id: "task_058",
+            title: "General Physics: Word Problems",
+            description: "Get ready for answering word problems.",
+            deadline: "July 30"
+        },
+        {
+            id: "task_059",
+            title: "Work Immersion: Resume & Letter",
+            description: "Prepare your resume and letter because they might be checked anytime soon. For references, you can check the General Physics GC.",
+            deadline: "No specific due date"
+        },
+        {
+            id: "task_060",
+            title: "Filipino: 2nd Summative Test",
+            description: "Review for the summative test. Coverage: Agenda, Katitikan ng Pulong, Panukalang Proyekto",
+            deadline: "July 31"
+        },
+        {
+            id: "task_061",
+            title: "Practical Research 2: Presentation of Title, Background of the Study, & Research Problem",
+            description: "Be ready for the presentation of your Title, Background of the Study, and Research Problem.",
+            deadline: "August 6"
+        },
+        {
+            id: "task_062",
+            title: "Practical Research 2: Homework",
+            description: "Each student must bring two related pieces of literature and two related studies. Please note that these should be printed and must include the following details on the back: source, date of publication, author, and place of publication. They should also be relevant to your respective titles. Don’t forget to bring a highlighter.",
+            deadline: "July 30"
         },
     ];
 
@@ -600,7 +642,7 @@ const getDeadlineDate = (deadline) => {
     if (!deadline || deadline.toLowerCase().includes("no specific") || deadline.toLowerCase().includes("end of term") || deadline.toLowerCase().includes("next week") || deadline.toLowerCase().includes("before exam")) {
         return new Date("9999-12-31");
     }
-    
+
     if (deadline.toLowerCase().includes(" or ")) {
         deadline = deadline.split(" or ")[0];
     }
@@ -609,7 +651,7 @@ const getDeadlineDate = (deadline) => {
     if (isNaN(parsedDate)) {
         return new Date("9999-12-31");
     }
-    
+
     return parsedDate;
 };
         const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
