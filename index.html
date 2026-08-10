@@ -605,6 +605,12 @@
             title: "HOPE 3: Hiphop Performance",
             description: "Good luck, everyone!",
             deadline: "August 26"
+        },
+        {
+            id: "task_074",
+            title: "General Physics: Monday Asynchronous Activity",
+            description: "Check the GC for more information",
+            deadline: "August 11"
         }
     ];
 
@@ -705,10 +711,10 @@
         listContainer.innerHTML = '';
 
 const getDeadlineDate = (deadline) => {
-    if (!deadline || 
+    if (!deadline ||
         deadline.toLowerCase().includes("no specific") || 
-        deadline.toLowerCase().includes("end of term") || 
-        deadline.toLowerCase().includes("next week") || 
+        deadline.toLowerCase().includes("end of term") ||
+        deadline.toLowerCase().includes("next week") ||
         deadline.toLowerCase().includes("before exam")) {
         return new Date("9999-12-31");
     }
