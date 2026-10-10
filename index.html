@@ -37,92 +37,8 @@
         .subtitle {
             font-size: 14px;
             color: #64748b;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-weight: 500;
-        }
-        /* Progress Bar Styling */
-        .progress-container {
-            margin-bottom: 20px;
-            background: #f8fafc;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-        .progress-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 8px;
-        }
-        .progress-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #0284c7 0%, #0274d8 100%);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        /* Filter Buttons & Controls */
-        .filter-buttons {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 6px;
-            margin-bottom: 15px;
-        }
-        .filter-buttons::-webkit-scrollbar {
-            height: 4px;
-        }
-        .filter-buttons::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 2px;
-        }
-        .filter-btn {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover {
-            background: #e2e8f0;
-        }
-        .filter-btn.active {
-            background: #0274d8;
-            color: white;
-            border-color: #0274d8;
-        }
-        .controls-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 13px;
-        }
-        .toggle-completed-btn {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        .toggle-completed-btn:hover {
-            background: #f1f5f9;
-            border-color: #94a3b8;
         }
         .input-field {
             width: 100%;
@@ -175,7 +91,7 @@
             align-items: flex-start;
             padding: 16px;
             margin-bottom: 12px;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.05);
             border-radius: 12px;
             transition: all 0.2s;
         }
@@ -203,13 +119,13 @@
             border-radius: 6px;
         }
         .completed {
-            border-color: #cbd5e1;
-            opacity: 0.75;
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0;
+            filter: none !important;
         }
-        .completed .todo-title { text-decoration: line-through; color: #64748b; }
-        .completed .todo-desc { color: #94a3b8; }
-        .completed .todo-deadline { background-color: rgba(100, 116, 139, 0.15); color: #64748b; }
-        
+        .completed .todo-title { text-decoration: line-through; color: #94a3b8; }
+        .completed .todo-desc { color: #cbd5e1; }
+        .completed .todo-deadline { background-color: #e2e8f0; color: #94a3b8; }
         .user-status {
             font-size: 13px;
             color: #334155;
@@ -217,7 +133,7 @@
             border: 1px solid #e0f2fe;
             padding: 12px 16px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -281,31 +197,6 @@
     </div>
 
     <div id="tracker-area" class="hidden">
-        <!-- Progress Bar & Counter -->
-        <div class="progress-container">
-            <div id="progress-stats" class="progress-text">0 of 0 tasks completed (0%)</div>
-            <div class="progress-bar-bg">
-                <div id="progress-bar-fill" class="progress-bar-fill"></div>
-            </div>
-        </div>
-
-        <!-- Subject Filter Buttons -->
-        <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="Pre-Calculus">Pre-Cal</button>
-            <button class="filter-btn" data-filter="Physics">Physics</button>
-            <button class="filter-btn" data-filter="Research">Research</button>
-            <button class="filter-btn" data-filter="Filipino">Filipino</button>
-            <button class="filter-btn" data-filter="EAPP">EAPP</button>
-            <button class="filter-btn" data-filter="HOPE">HOPE</button>
-        </div>
-
-        <!-- Toggle Completed Tasks Visibility -->
-        <div class="controls-row">
-            <span style="color: #64748b;" id="hidden-count-text">Completed tasks are hidden</span>
-            <button id="toggle-completed-btn" class="toggle-completed-btn">Show Completed</button>
-        </div>
-
         <div id="todo-list"></div>
     </div>
 </div>
@@ -326,73 +217,829 @@
             id: "task_001",
             title: "Pre-Calculus: Parabola in Real-Life Activity",
             description: "Check Google Classroom for more information..",
-            deadline: "No specific date",
-            bgColor: "#eff6ff",
-            subject: "Pre-Calculus"
+            deadline: "No specific date"
         },
         {
             id: "task_002",
             title: "Pre-Calculus: Quiz#2",
             description: "Check Google Classroom for more information.",
-            deadline: "No specific Date",
-            bgColor: "#fef2f2",
-            subject: "Pre-Calculus"
+            deadline: "No specific Date"
         },
         {
             id: "task_003",
             title: "Filipino: Pink Long Clear Book Compilation of Works",
             description: "Compilation of activities and quizzes.",
-            deadline: "September 4",
-            bgColor: "#fdf4ff",
-            subject: "Filipino"
+            deadline: "September 4"
         },
         {
             id: "task_004",
             title: "Practical Research 2: Checking of Final Draft of Background of the Study and Proposed Title",
             description: "Checking of final draft of Background of the study and proposed title of your studies.",
-            deadline: "July 13",
-            bgColor: "#f0fdf4",
-            subject: "Research"
+            deadline: "July 13"
         },
         {
             id: "task_005",
             title: "Physics: Friday Asynchronous Activity",
             description: "Summary notes about the 3 videos sent, and answer word problem.",
-            deadline: "July 14",
-            bgColor: "#fffbeb",
-            subject: "Physics"
+            deadline: "July 14"
         },
         {
             id: "task_006",
             title: "EAPP: Friday Asynchronous Activity",
             description: "Before bed time, recall how your day was during the 1st cancellation of classes today. Front page, short paragraph of summary about your day and at the back of the paper, rewrite it using roman numerals, letters, and hindu arabic numbers to separate main point and key points.",
-            deadline: "July 14",
-            bgColor: "#faf5ff",
-            subject: "EAPP"
+            deadline: "July 14"
         },
         {
             id: "task_007",
             title: "Practical Research 2: Friday Asynchronous Activity",
             description: "Submit the outline of your background of the study and proposed title.",
-            deadline: "July 13 or 14",
-            bgColor: "#f0fdf4",
-            subject: "Research"
+            deadline: "July 13 or 14"
         },
         {
             id: "task_008",
             title: "HOPE 3: Friday Asynchronous Activity",
             description: "Answer the Google Form given.",
-            deadline: "July 11",
-            bgColor: "#fff7ed",
-            subject: "HOPE"
-        }
+            deadline: "July 11"
+        },
+        {
+            id: "task_009",
+            title: "HOPE 3: Basic Steps Performance",
+            description: "Dance presentation of each groups using basic steps.",
+            deadline: "July 15"
+        },
+        {
+            id: "task_010",
+            title: "HOPE 3: Summative Test",
+            description: "Review about fundamental and basic steps.",
+            deadline: "July 15"
+        },
+        {
+            id: "task_011",
+            title: "EAPP: Saturday Asynchronous Activity",
+            description: "Write the important key points of lessons 1 to 3 on your notebook based on the PDF sent. Make sure to highlight main ideas and key points.",
+            deadline: "July 14"
+        },
+        {
+            id: "task_012",
+            title: "Pre-Calculus: Activity 1-3 about Ellipse",
+            description: "Answer all 3 activies by accessing the Google Form links provided to your gmail accounts by Sir Nat.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_013",
+            title: "Filipino: Recitation",
+            description: "Recitation about the Agenda & Katitikan ng Pulong lesson",
+            deadline: "July 14"
+        },
+        {
+            id: "task_014",
+            title: "Filipino: Final Copy of Katitikan ng Pulong",
+            description: "Final copy of Katitikan ng Pulong using the format sent by Binibining MJ.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_015",
+            title: "Practical Research 2: Title & Background of the Study",
+            description: "Final draft of Title & Background of the Study.",
+            deadline: "July 16"
+        },
+        {
+            id: "task_016",
+            title: "HOPE 3: Folk Dance Performance",
+            description: "Folk dance performance.",
+            deadline: "July 24"
+        },
+        {
+            id: "task_017",
+            title: "Pre-Calculus: Quiz about Hyperbola",
+            description: "Review about hyperbola.",
+            deadline: "July 21"
+        },
+        {
+            id: "task_018",
+            title: "Pre-Calculus: Activity 1-3 about Hyperbola",
+            description: "Check Google Classroom for more information.",
+            deadline: "July 24"
+        },
+        {
+            id: "task_019",
+            title: "Pre-Calculus: Homework Activty 3 about Ellipse",
+            description: "Make sure to answer Activity 3 about ellipse. Check Google Classroom for more information.",
+            deadline: "July 15"
+        },
+        {
+            id: "task_020",
+            title: "General Physics: Quiz",
+            description: "Don't forget to review.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_021",
+            title: "Learners Profile Template",
+            description: "Print the file and answer the questions provided..",
+            deadline: "July 16"
+        },
+        {
+            id: "task_022",
+            title: "Practical Research 2: Submit Statement of the Problem",
+            description: "Submission of Statement of the Problem.",
+            deadline: "July 21"
+        },
+        {
+            id: "task_023",
+            title: "Practical Research 2: Significance of the Study, Scope & Delimitation, & Definition of Terms",
+            description: "Final submission of Significance of the Study, Scope & Delimitation, & Definition of Terms.",
+            deadline: "July 30"
+        },
+        {
+            id: "task_024",
+            title: "Practical Research 2: Chapter 2",
+            description: "Final submission of entire Chapter 2.",
+            deadline: "Aug 13"
+        },
+        {
+            id: "task_025",
+            title: "Practical Research 2: Chapter 1-3",
+            description: "Final submission of entire Chapter 3.",
+            deadline: "September 2"
+        },
+        {
+            id: "task_026",
+            title: "Practical Research 2: Research Plan",
+            description: "Final submission of Research Plan.",
+            deadline: "September 2"
+        },
+        {
+            id: "task_027",
+            title: "Practical Research 2: Data Logbook",
+            description: "Final submission of Data Logbook.",
+            deadline: "September 3"
+        },
+        {
+            id: "task_028",
+            title: "Pre-Calculus: Homework Item No.2",
+            description: "Answer the item no.2: 64X^2 - 36y^2 = 2304 on your notebook.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_029",
+            title: "EAPP: Homework",
+            description: "Check EAPP GC for more information.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_030",
+            title: "Filipino: Take home activity",
+            description: "Continue the activity you were given at home, and be ready to submit it tomorrow.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_031",
+            title: "Filipino: Checking of Notebook",
+            description: "Submit your notes on the Panukalang Proyekto tomorrow.",
+            deadline: "July 17"
+        },
+        {
+            id: "task_032",
+            title: "Pre-Calculus: Formula sheet",
+            description: "Submit your formula sheets with the additional formulas written on the board for Hyperbola.",
+            deadline: "July 20"
+        },
+        {
+            id: "task_033",
+            title: "Pre-Calculus: Graph for Example",
+            description: "Put the graph in your notebook for the example that was given on the board last Friday, July 17, 2026.",
+            deadline: "July 20"
+        },
+        {
+            id: "task_034",
+            title: "EAPP: Saturday Asynchronous Activity",
+            description: "Check the EAPP GC for more information.",
+            deadline: "July 21"
+        },
+        {
+            id: "task_035",
+            title: "Filipino: Read & Understand Talumpati PPT",
+            description: "Check the Filipino GC for more information.",
+            deadline: "July 18"
+        },
+        {
+            id: "task_036",
+            title: "General Physics: Watch Youtube Videos",
+            description: "Watch the videos to catch up on missed lessons or lessons you don’t understand. Check the Physics GC for more information.",
+            deadline: "No specific due date"
+        },
+        {
+            id: "task_037",
+            title: "Work Immersion: Read and Understand Module 1: Orientation",
+            description: "Read and understand the module given by Sir Maninang.",
+            deadline: "July 21"
+        },
+         {
+            id: "task_038",
+            title: "Work Immersion: Read and Understand Module 2: Ethics",
+            description: "Read and understand the module given by Sir Maninang.",
+            deadline: "July 21"
+         },
+         {
+            id: "task_039",
+            title: "Pre-Calculus: Graded Recitation",
+            description: "Review and practice for graded recitation.",
+            deadline: "August 25"
+        },
+        {
+            id: "task_040",
+            title: "Filipino: Panukalang Proyekto Draft",
+            description: "Each group should write their draft on a whole sheet of paper.",
+            deadline: "July 21"
+        },
+        {
+            id: "task_041",
+            title: "Filipino: Revised Panukalang Proyekto",
+            description: "Each group must submit the revised version of your panukalang proyekto.",
+            deadline: "July 22"
+        },
+        {
+            id: "task_042",
+            title: "EAPP: Quiz",
+            description: "Review about the lesson earlier.",
+            deadline: "July 22"
+        },
+        {
+            id: "task_043",
+            title: "EAPP: Read the poem The Road Not Taken",
+            description: "Read the poem, and understand.",
+            deadline: "July 22"
+        },
+        {
+            id: "task_044",
+            title: "Work Immersion: Work Immersion Portfolio",
+            description: "Submit Work Immersion Portfolio. No specific due date, but DON'T CRAM IT.",
+            deadline: "No specific due date"
+        },
+        {
+            id: "task_045",
+            title: "Filipino: Panukalang Proyekto Presentation",
+            description: "Each group will present their approved panukalang proyekto.",
+            deadline: "July 29"
+        },
+        {
+            id: "task_046",
+            title: "Pre-Calculus: Summative Test",
+            description: "Half of Ellipse to Circular Functions",
+            deadline: "August 3"
+        },
+        {
+            id: "task_047",
+            title: "Pre-Calculus: Presentation of PETA",
+            description: "Be ready for the presentation. Good luck!",
+            deadline: "August 26"
+        },
+        {
+            id: "task_048",
+            title: "Filipino: Quiz",
+            description: "Review about Agenda, Katitikan ng Pulong at Panukulang Proyekto.",
+            deadline: "July 24"
+        },
+        {
+            id: "task_049",
+            title: "EAPP: Saturday Asynchronous Activity",
+            description: "Tick this task if you have already read the PPT sent in the EAPP GC.",
+            deadline: "July 25"
+        },
+        {
+            id: "task_050",
+            title: "Practical Research 2: Saturday Asynchronous Activity - Scope and Delimitation",
+            description: "Create the final draft of your Scope and Delimitation. The deadline is not yet certain, but it is better to prepare before Tuesday since it might be checked.",
+            deadline: "July 28"
+        },
+        {
+            id: "task_051",
+            title: "Pre-Calculus: Pending Activities",
+            description: "Check Google Classroom for more information and read the instructions carefully.",
+            deadline: "July 28"
+        },
+        {
+            id: "task_052",
+            title: "Filipino: Submit Final Copy of Panukalang Proyekto",
+            description: "Submit your final copy of panukalang proyekto each group.",
+            deadline: "August 3"
+        },
+        {
+            id: "task_053",
+            title: "Practical Research 2: Monday Asynchronous Activity Submit your Significance of the Study",
+            description: "Create the draft for your Significance of the Study and post it in the PR2 GC.",
+            deadline: "July 27"
+        },
+        {
+            id: "task_054",
+            title: "EAPP: Monday Asynchronous Activity",
+            description: "Tick this task if you have already read the PPT sent in the EAPP GC.",
+            deadline: "July 27"
+        },
+        {
+            id: "task_055",
+            title: "Filipino: Monday Asynchronous Activity",
+            description: "Check Filipino GC for more information.",
+            deadline: "July 29"
+        },
+        {
+            id: "task_056",
+            title: "Pre-Calculus: Submission of PETA",
+            description: "The picture of the output should be sent on weekends before August 24 so it can be checked first before the presentation.",
+            deadline: "August 26"
+        },
+        {
+            id: "task_057",
+            title: "General Physics: 2nd Summative Test",
+            description: "Review for a summative test. Good luck!",
+            deadline: "August 4"
+        },
+        {
+            id: "task_058",
+            title: "General Physics: Word Problems",
+            description: "Get ready for answering word problems.",
+            deadline: "July 30"
+        },
+        {
+            id: "task_059",
+            title: "Work Immersion: Resume & Letter",
+            description: "Prepare your resume and letter because they might be checked anytime soon. For references, you can check the General Physics GC.",
+            deadline: "No specific due date"
+        },
+        {
+            id: "task_060",
+            title: "Filipino: 2nd Summative Test",
+            description: "Review for the summative test. Coverage: Agenda, Katitikan ng Pulong, Panukalang Proyekto",
+            deadline: "August 3"
+        },
+        {
+            id: "task_061",
+            title: "Practical Research 2: Presentation of Title, Background of the Study, & Research Problem",
+            description: "Be ready for the presentation of your Title, Background of the Study, and Research Problem.",
+            deadline: "August 5"
+        },
+        {
+            id: "task_062",
+            title: "Practical Research 2: 2 related literatures and 2 related studies",
+            description: "Each student must bring two related of literature and two related studies. Please note that these should be printed and must include the following details on the back: source, date of publication, author, and place of publication. They should also be relevant to your respective titles. Don’t forget to bring a highlighter.",
+            deadline: "July 30"
+        },
+        {
+            id: "task_063",
+            title: "EAPP: 2nd Summative Test",
+            description: "Review about Summarizing, Thesis Statement, Outlining, and Critical lenses/approaches.",
+            deadline: "July 30"
+        },
+        {
+            id: "task_064",
+            title: "HOPE 3: 2nd Summative Test",
+            description: "Review about the past lessons. Good luck.",
+            deadline: "August 5"
+        },
+        {
+            id: "task_065",
+            title: "HOPE 3: Social Dance Performance",
+            description: "Be ready and don't forget the 1/4 with names before performing.",
+            deadline: "August 12"
+        },
+        {
+            id: "task_066",
+            title: "Pre-Calculus: Board Activity",
+            description: "Review each group.",
+            deadline: "July 31"
+        },
+        {
+            id: "task_067",
+            title: "General Physics: Assignment",
+            description: "Define the following terms: Projectile Motion, Range, Trajectory, Height",
+            deadline: "August 12"
+        },
+        {
+            id: "task_068",
+            title: "General Physics: Word Problem",
+            description: "Submit the given file with answer.",
+            deadline: "August 12"
+        },
+        {
+            id: "task_069",
+            title: "General Physics: Assignment",
+            description: "Define the following terms: Projectile Motion, Range, Trajectory, Height",
+            deadline: "August 12"
+        },
+        {
+            id: "task_070",
+            title: "General Physics: Friday Asynchronous Activity",
+            description: "Check the GC for more information.",
+            deadline: "August 12"
+        },
+        {
+            id: "task_071",
+            title: "EAPP: Friday Asynchronous Activity",
+            description: "Check the GC for more information.",
+            deadline: "August 12"
+        },
+        {
+            id: "task_072",
+            title: "Practical Research 2: Friday Asynchronous Activity",
+            description: "Check the GC for more information.",
+            deadline: "August 12"
+        },
+        {
+            id: "task_073",
+            title: "HOPE 3: Hiphop Performance",
+            description: "Good luck, everyone!",
+            deadline: "September 7"
+        },
+        {
+            id: "task_074",
+            title: "General Physics: Monday Asynchronous Activity",
+            description: "Check the GC for more information",
+            deadline: "August 12"
+        },
+        {
+            id: "task_075",
+            title: "Pre-Calculus: Activity 1 & 2 Google Classroom",
+            description: "Check the Google Classroom for more information",
+            deadline: "August 12"
+        },
+        {
+            id: "task_076",
+            title: "Pre-Calculus: Checking Progress of PETA",
+            description: "Good luck, everyone!",
+            deadline: "August 14"
+        },
+        {
+            id: "task_077",
+            title: "Pre-Calculus: Notebook Checking",
+            description: "Complete notebook notes.",
+            deadline: "August 25"
+        },
+         {
+            id: "task_078",
+            title: "General Physics: Quiz",
+            description: "10 items multiple choices. Don't forget to review, everyone!",
+            deadline: "August 13"
+        },
+        {
+            id: "task_079",
+            title: "General Physics: PETA",
+            description: "Check GC for more information.",
+            deadline: "September 2"
+        },
+        {
+            id: "task_080",
+            title: "Practical Research 2: Research Design Quiz",
+            description: "UNTIL 12 PM ONLY! Check the GC for more information.",
+            deadline: "September 1"
+        },
+        {
+            id: "task_081",
+            title: "Pre-Calculus: Assignment",
+            description: "Check the Announcement GC for more information.",
+            deadline: "Aug 14"
+        },
+        {
+            id: "task_082",
+            title: "EAPP: Quiz",
+            description: "Review about concept paper.",
+            deadline: "Aug 25"
+        },
+        {
+            id: "task_083",
+            title: "General Physics: Assignment",
+            description: "Check the GC for more information. You can write your answer on your notebook.",
+            deadline: "Aug 24"
+        },
+        {
+            id: "task_084",
+            title: "Pre-Calculus: Assignment",
+            description: "Check the GC for more information. You can write your answer on your notebook.",
+            deadline: "Aug 24"
+        },
+        {
+            id: "task_085",
+            title: "Pre-Calculus: White Folder - Compilation of Papers",
+            description: "A plain white long folder containing a compilation of quizzes, summative tests, and other paperwork.",
+            deadline: "August 25"
+        },
+        {
+            id: "task_086",
+            title: "Pre-Calculus: Asynchronous Learning Task",
+            description: "Check the Google Classroom for more information. Make sure to submit it by August 18, 2026.",
+            deadline: "August 18"
+        },
+        {
+            id: "task_087",
+            title: "General Physics: Assignment",
+            description: "Check the GC for more information.",
+            deadline: "August 24"
+        },
+        {
+            id: "task_088",
+            title: "Practical Research: Submit Chapter 2",
+            description: "Finalize and submit your Chapter 2 within the day.",
+            deadline: "August 20"
+        },
+        {
+            id: "task_089",
+            title: "General Physics: Assignment",
+            description: "Check the GC for more information. This was given on August 20, 2026.",
+            deadline: "August 24"
+        },
+        {
+            id: "task_090",
+            title: "Pre-Calculus: Asynchronous Learning Task",
+            description: "Check the Google Classroom for more information.",
+            deadline: "August 20"
+        },
+        {
+            id: "task_091",
+            title: "Pre-Calculus: First Half of 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 1"
+        },
+        {
+            id: "task_092",
+            title: "Practical Research: 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 1"
+        },
+        {
+            id: "task_093",
+            title: "HOPE 3: 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 1"
+        },
+        {
+            id: "task_094",
+            title: "General Physics: First Half of 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 1"
+        },
+        {
+            id: "task_095",
+            title: "General Physics: Second Half of 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 2"
+        },
+        {
+            id: "task_096",
+            title: "Filipino: 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 2"
+       },
+       {
+            id: "task_097",
+            title: "EAPP: 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 2"
+       },
+       {
+            id: "task_098",
+            title: "Pre-Calculus: Second Half of 1st Term Exam",
+            description: "Good luck, everyone! Padayon :)",
+            deadline: "September 2"
+       },
+       {
+            id: "task_099",
+            title: "EAPP: Submission of Final Output",
+            description: "Check announcement GC for more information.",
+            deadline: "September 10"
+       },
+       {
+            id: "task_100",
+            title: "Practical Research 2 : Friday Asynchronous Activity August 28, 2026",
+            description: "Check announcement GC for more information.",
+            deadline: "September 1"
+       },
+       {
+            id: "task_101",
+            title: "Pre-Calculus: Asynchronous Activity August 28 & 29, 2026",
+            description: "Check Pre-Calculus Google Classroom for more information.",
+            deadline: "September 1"
+       },
+       {
+            id: "task_102",
+            title: "Practical Research 2: Notebook with Notes",
+            description: "Make sure to complete the notes. Although this is tentative, the first announcement still requires them, so it’s recommended to prepare them for submission.",
+            deadline: "September 3"
+       },
+       {
+            id: "task_103",
+            title: "Practical Research 2: Pre-Oral Defense of Chapter 1-3",
+            description: "The schedule is still tentative, but most likely after our work immersion.",
+            deadline: "October 14"
+       },
+       {
+            id: "task_104",
+            title: "General Physics: Notebook",
+            description: "Bring your notebook, and attach 1/2 crosswise with date marks.",
+            deadline: "September 2"
+       },
+       {
+            id: "task_105",
+            title: "General Physics: Notebook",
+            description: "Bring your notebook tomorrow for checking.",
+            deadline: "September 4"
+       },
+       {
+            id: "task_106",
+            title: "EAPP: Notebook",
+            description: "Bring your notebook tomorrow for checking.",
+            deadline: "September 4"
+       },
+       {
+            id: "task_107",
+            title: "EAPP: Portfolio",
+            description: "Bring your portfolio tomorrow for checking.",
+            deadline: "September 4"
+       },
+       {
+            id: "task_108",
+            title: "Philosophy: Assignment 1",
+            description: "Check Announcement GC for more information.",
+            deadline: "September 18"
+       },
+       {
+            id: "task_109",
+            title: "Work Immersion: Black Notebook",
+            description: "Check Announcement GC for more information.",
+            deadline: "September 21"
+       },
+       {
+            id: "task_110",
+            title: "Basic Calculus: 1st Checking of Notebook",
+            description: "Check Announcement GC for more information.",
+            deadline: "October 2"
+       },
+       {
+            id: "task_111",
+            title: "Basic Calculus: Join Google Classroom",
+            description: "Check Pre-Calculus GC for more information.",
+            deadline: "September 21"
+       },
+       {
+            id: "task_112",
+            title: "Basic Calculus: Portfolio",
+            description: "Check Announcement GC for more information.",
+            deadline: "End of term"
+       },
+       {
+            id: "task_113",
+            title: "Work Immersion: Assignment 1",
+            description: "Check GC for more information.",
+            deadline: "September 21"
+       },
+       {
+            id: "task_114",
+            title: "Basic Calculus: Answer W1A1",
+            description: "Check Google Classroom for more information.",
+            deadline: "September 21"
+       },
+       {
+            id: "task_115",
+            title: "Basic Calculus: Answer W1A2",
+            description: "Check Google Classroom for more information.",
+            deadline: "September 21"
+       },
+       {
+            id: "task_116",
+            title: "Basic Calculus: Quiz 1",
+            description: "Review for Week 1.",
+            deadline: "September 25"
+       },
+       {
+            id: "task_117",
+            title: "Philosophy: Portfolio",
+            description: "Check Announcement GC for more information.",
+            deadline: "September 25"
+       },
+       {
+            id: "task_118",
+            title: "MIL: Graded Recitation",
+            description: "Review the PPT given.",
+            deadline: "September 24"
+       },
+       {
+            id: "task_119",
+            title: "Work Immersion: Quiz 1",
+            description: "Review Orientation & Work Ethics",
+            deadline: "September 24"
+       },
+       {
+            id: "task_120",
+            title: "MIL: Notebook",
+            description: "Check Announcement GC for more information.",
+            deadline: "September 28"
+       },
+       {
+            id: "task_121",
+            title: "MIL: Checking of Lesson 1 Notes",
+            description: "Checking of our lesson 1 notes.",
+            deadline: "September 25"
+       },
+       {
+            id: "task_122",
+            title: "MIL: Quiz 1",
+            description: "Review about the lesson 1.",
+            deadline: "September 25"
+       },
+       {
+            id: "task_123",
+            title: "Work Immersion: Activity",
+            description: "Check General Physics for more information.",
+            deadline: "September 28"
+       },
+       {
+            id: "task_124",
+            title: "III: Video Presentation",
+            description: "Check Announcement GC for more information.",
+            deadline: "October 14"
+       },
+       {
+            id: "task_125",
+            title: "Philosophy: Activity 5",
+            description: "From the assignment about different Philosophers, choose 1 philosopher (your favorite) and explain your perspective on his philosophy.",
+            deadline: "October 1"
+       },
+       {
+            id: "task_126",
+            title: "Work Immersion: Quiz 2",
+            description: "Review about signages.",
+            deadline: "October 1"
+       },
+       {
+            id: "task_127",
+            title: "MIL: Recitation",
+            description: "Review about the recent topic.",
+            deadline: "October 8"
+       },
+       {
+            id: "task_128",
+            title: "MIL: Timeline Activity",
+            description: "Check GC for more information.",
+            deadline: "October 8"
+       },
+       {
+            id: "task_129",
+            title: "III: Checking of Revised Papers",
+            description: "Make sure to pass your revised papers because that will serve as your summative test.",
+            deadline: "October 9"
+       },
+       {
+            id: "task_130",
+            title: "Philosophy: Roleplay",
+            description: "Make a roleplay based on the assigned Philosopher. Maximum is 5 minutes.",
+            deadline: "October 7"
+       },
+       {
+            id: "task_131",
+            title: "III: Checking of Updated Timeline",
+            description: "Make sure to submit the updated timeline. Gawin daw makatotohanan.",
+            deadline: "October 9"
+       },
+       {
+            id: "task_132",
+            title: "Work Immersion: 1st Summative Test",
+            description: "Review from the first topic to the recent topic.",
+            deadline: "October 12"
+       },
+       {
+            id: "task_133",
+            title: "MIL: Quiz 2",
+            description: "Review about the recent topic.",
+            deadline: "October 12"
+       },
+       {
+            id: "task_134",
+            title: "MIL: Checking of Notebook/Notes",
+            description: "Notes about the recent topic.",
+            deadline: "October 12"
+       },
+       {
+            id: "task_135",
+            title: "MIL: 1st Summative Test",
+            description: "Review from the first topic up to the recent topic.",
+            deadline: "October 16"
+       },
+       {
+            id: "task_136",
+            title: "HOPE: Swimming Practical Exam",
+            description: "Check 12 STEM GC for more information and detailed notes.",
+            deadline: "Before the End of Term"
+       },
+       {
+            id: "task_137",
+            title: "Philosophy: Quiz 1",
+            description: "Review recent notes.",
+            deadline: "October 13"
+       }
     ];
 
     let currentUser = null;
     let userProgress = {};
-    let currentFilter = 'all';
-    let showCompleted = false; // Toggle state for hidden completed tasks
-    let lastAction = null; 
+    let lastAction = null;
     let toastTimeout = null;
 
     const localBackup = localStorage.getItem('dalton_todo_progress');
@@ -481,35 +1128,13 @@
         renderTodoList();
     }
 
-    function updateProgressStats() {
-        const totalTasks = MASTER_TASKS.length;
-        const completedTasks = MASTER_TASKS.filter(task => userProgress[task.id]).length;
-        const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-
-        document.getElementById('progress-stats').innerText = `${completedTasks} of ${totalTasks} tasks completed (${percentage}%)`;
-        document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
-
-        // Update helper text about hidden completed tasks
-        const hiddenCount = completedTasks;
-        const hiddenTextElem = document.getElementById('hidden-count-text');
-        if (!showCompleted && hiddenCount > 0) {
-            hiddenTextElem.innerText = `${hiddenCount} completed task${hiddenCount > 1 ? 's' : ''} hidden`;
-        } else if (!showCompleted) {
-            hiddenTextElem.innerText = `Completed tasks are hidden`;
-        } else {
-            hiddenTextElem.innerText = `Showing all tasks`;
-        }
-    }
-
     function renderTodoList() {
-        updateProgressStats();
-
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
         const getDeadlineDate = (deadline) => {
             if (!deadline ||
-                deadline.toLowerCase().includes("no specific") || 
+                deadline.toLowerCase().includes("no specific") ||
                 deadline.toLowerCase().includes("end of term") ||
                 deadline.toLowerCase().includes("next week") ||
                 deadline.toLowerCase().includes("before exam")) {
@@ -530,24 +1155,7 @@
             return parsedDate;
         };
 
-        // Filter tasks by subject AND visibility of completed tasks
-        const filteredTasks = MASTER_TASKS.filter(task => {
-            const isChecked = userProgress[task.id] || false;
-            
-            // Hide completed items if toggle is off
-            if (!showCompleted && isChecked) {
-                return false;
-            }
-
-            // Filter by subject category
-            if (currentFilter !== 'all' && task.subject !== currentFilter) {
-                return false;
-            }
-
-            return true;
-        });
-
-        const sortedTasks = [...filteredTasks].sort((a, b) => {
+        const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
             const isCheckedA = userProgress[a.id] || false;
             const isCheckedB = userProgress[b.id] || false;
 
@@ -555,17 +1163,12 @@
             return getDeadlineDate(a.deadline) - getDeadlineDate(b.deadline);
         });
 
-        if (sortedTasks.length === 0) {
-            listContainer.innerHTML = `<div style="text-align: center; color: #64748b; padding: 20px; font-size: 14px;">No tasks match your current view.</div>`;
-            return;
-        }
-
         sortedTasks.forEach(task => {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-            
-            if (task.bgColor) {
+
+            if (!isChecked && task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
 
@@ -591,7 +1194,7 @@
         const toast = document.getElementById('toast');
         document.getElementById('toast-msg').innerText = message;
         toast.className = "show";
-        
+
         clearTimeout(toastTimeout);
         toastTimeout = setTimeout(() => {
             toast.className = toast.className.replace("show", "");
@@ -600,7 +1203,7 @@
 
     async function updateTaskState(taskId, isChecked, isUndo = false) {
         const previousState = !!userProgress[taskId];
-        
+
         lastAction = { taskId, previousState };
 
         userProgress[taskId] = isChecked;
@@ -615,6 +1218,14 @@
             await supabaseClient
                 .from('user_progress')
                 .upsert({ user_id: currentUser.id, task_id: taskId, is_completed: isChecked }, { onConflict: 'user_id,task_id' });
+
+            try {
+                await supabaseClient.functions.invoke('notify-task-update', {
+                    body: { email: currentUser.email, taskId, isCompleted: isChecked }
+                });
+            } catch (err) {
+                console.log("Email notification trigger sent or skipped.");
+            }
         }
     }
 
@@ -627,23 +1238,6 @@
             });
         });
     }
-
-    // Filter button listeners
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            currentFilter = e.target.getAttribute('data-filter');
-            renderTodoList();
-        });
-    });
-
-    // Toggle completed tasks button listener
-    document.getElementById('toggle-completed-btn').addEventListener('click', (e) => {
-        showCompleted = !showCompleted;
-        e.target.innerText = showCompleted ? "Hide Completed" : "Show Completed";
-        renderTodoList();
-    });
 
     document.getElementById('undo-btn').addEventListener('click', () => {
         if (lastAction) {
