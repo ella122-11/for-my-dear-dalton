@@ -37,8 +37,93 @@
         .subtitle {
             font-size: 14px;
             color: #64748b;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: 500;
+        }
+        /* Progress Bar Styling */
+        .progress-container {
+            margin-bottom: 20px;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .progress-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #0284c7 0%, #0274d8 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
+        }
+        .filter-buttons::-webkit-scrollbar {
+            height: 4px;
+        }
+        .filter-buttons::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .filter-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover {
+            background: #e2e8f0;
+        }
+        .filter-btn.active {
+            background: #0274d8;
+            color: white;
+            border-color: #0274d8;
+        }
+        /* Controls & Toggle Button */
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        .toggle-completed-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .toggle-completed-btn:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
         }
         .input-field {
             width: 100%;
@@ -119,13 +204,13 @@
             border-radius: 6px;
         }
         .completed {
-            background: #f1f5f9 !important;
-            border-color: #e2e8f0;
-            filter: none !important;
+            border-color: #cbd5e1;
+            opacity: 0.75;
         }
-        .completed .todo-title { text-decoration: line-through; color: #94a3b8; }
-        .completed .todo-desc { color: #cbd5e1; }
-        .completed .todo-deadline { background-color: #e2e8f0; color: #94a3b8; }
+        .completed .todo-title { text-decoration: line-through; color: #64748b; }
+        .completed .todo-desc { color: #94a3b8; }
+        .completed .todo-deadline { background-color: rgba(100, 116, 139, 0.15); color: #64748b; }
+        
         .user-status {
             font-size: 13px;
             color: #334155;
@@ -133,7 +218,7 @@
             border: 1px solid #e0f2fe;
             padding: 12px 16px;
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -196,6 +281,30 @@
     </div>
 
     <div id="tracker-area" class="hidden">
+        <!-- Progress Bar & Counter -->
+        <div class="progress-container">
+            <div id="progress-stats" class="progress-text">0 of 0 tasks completed (0%)</div>
+            <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+        </div>
+
+        <!-- Subject Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Philosophy">Philosophy</button>
+            <button class="filter-btn" data-filter="Work Immersion">Work Immersion</button>
+            <button class="filter-btn" data-filter="MIL">MIL</button>
+            <button class="filter-btn" data-filter="HOPE">HOPE</button>
+            <button class="filter-btn" data-filter="III">III</button>
+        </div>
+
+        <!-- Toggle Completed Tasks Visibility -->
+        <div class="controls-row">
+            <span style="color: #64748b;" id="hidden-count-text">Completed tasks are hidden</span>
+            <button id="toggle-completed-btn" class="toggle-completed-btn">Show Completed</button>
+        </div>
+
         <div id="todo-list"></div>
     </div>
 </div>
@@ -217,47 +326,55 @@
             title: "Work Immersion: 1st Summative Test",
             description: "Review from the first topic to the recent topic.",
             deadline: "October 12",
-            bgColor: "#ffffff" // Work Immersion - Black & White
+            bgColor: "#ffffff", // Work Immersion - Black & White
+            subject: "Work Immersion"
        },
        {
             id: "task_133",
             title: "MIL: Quiz 2",
             description: "Review about the recent topic.",
             deadline: "October 12",
-            bgColor: "#fdf4ff" // MIL - Pink
+            bgColor: "#fdf4ff", // MIL - Pink
+            subject: "MIL"
        },
        {
             id: "task_134",
             title: "MIL: Checking of Notebook/Notes",
             description: "Notes about the recent topic.",
             deadline: "October 12",
-            bgColor: "#fdf4ff" // MIL - Pink
+            bgColor: "#fdf4ff", // MIL - Pink
+            subject: "MIL"
        },
        {
             id: "task_135",
             title: "MIL: 1st Summative Test",
             description: "Review from the first topic up to the recent topic.",
             deadline: "October 16",
-            bgColor: "#fdf4ff" // MIL - Pink
+            bgColor: "#fdf4ff", // MIL - Pink
+            subject: "MIL"
        },
        {
             id: "task_136",
             title: "HOPE: Swimming Practical Exam",
             description: "Check 12 STEM GC for more information and detailed notes.",
             deadline: "Before the End of Term",
-            bgColor: "#fff7ed" // HOPE - Orange
+            bgColor: "#fff7ed", // HOPE - Orange
+            subject: "HOPE"
        },
        {
             id: "task_137",
             title: "Philosophy: Quiz 1",
             description: "Review recent notes.",
             deadline: "October 13",
-            bgColor: "#eff6ff" // Philosophy - Blue
+            bgColor: "#eff6ff", // Philosophy - Blue
+            subject: "Philosophy"
        }
     ];
 
     let currentUser = null;
     let userProgress = {};
+    let currentFilter = 'all';
+    let showCompleted = false;
     let lastAction = null; 
     let toastTimeout = null;
 
@@ -347,7 +464,28 @@
         renderTodoList();
     }
 
+    function updateProgressStats() {
+        const totalTasks = MASTER_TASKS.length;
+        const completedTasks = MASTER_TASKS.filter(task => userProgress[task.id]).length;
+        const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+        document.getElementById('progress-stats').innerText = `${completedTasks} of ${totalTasks} tasks completed (${percentage}%)`;
+        document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+
+        const hiddenCount = completedTasks;
+        const hiddenTextElem = document.getElementById('hidden-count-text');
+        if (!showCompleted && hiddenCount > 0) {
+            hiddenTextElem.innerText = `${hiddenCount} completed task${hiddenCount > 1 ? 's' : ''} hidden`;
+        } else if (!showCompleted) {
+            hiddenTextElem.innerText = `Completed tasks are hidden`;
+        } else {
+            hiddenTextElem.innerText = `Showing all tasks`;
+        }
+    }
+
     function renderTodoList() {
+        updateProgressStats();
+
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
@@ -374,7 +512,22 @@
             return parsedDate;
         };
 
-        const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
+        // Filter tasks by subject and completed state visibility
+        const filteredTasks = MASTER_TASKS.filter(task => {
+            const isChecked = userProgress[task.id] || false;
+            
+            if (!showCompleted && isChecked) {
+                return false;
+            }
+
+            if (currentFilter !== 'all' && task.subject !== currentFilter) {
+                return false;
+            }
+
+            return true;
+        });
+
+        const sortedTasks = [...filteredTasks].sort((a, b) => {
             const isCheckedA = userProgress[a.id] || false;
             const isCheckedB = userProgress[b.id] || false;
 
@@ -382,13 +535,17 @@
             return getDeadlineDate(a.deadline) - getDeadlineDate(b.deadline);
         });
 
+        if (sortedTasks.length === 0) {
+            listContainer.innerHTML = `<div style="text-align: center; color: #64748b; padding: 20px; font-size: 14px;">No tasks match your current view.</div>`;
+            return;
+        }
+
         sortedTasks.forEach(task => {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
 
-            // Apply custom background color if not completed
-            if (!isChecked && task.bgColor) {
+            if (task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
 
@@ -450,6 +607,23 @@
             });
         });
     }
+
+    // Filter button listeners
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.getAttribute('data-filter');
+            renderTodoList();
+        });
+    });
+
+    // Toggle completed tasks visibility listener
+    document.getElementById('toggle-completed-btn').addEventListener('click', (e) => {
+        showCompleted = !showCompleted;
+        e.target.innerText = showCompleted ? "Hide Completed" : "Show Completed";
+        renderTodoList();
+    });
 
     document.getElementById('undo-btn').addEventListener('click', () => {
         if (lastAction) {
