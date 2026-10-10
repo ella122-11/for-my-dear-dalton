@@ -91,7 +91,6 @@
             align-items: flex-start;
             padding: 16px;
             margin-bottom: 12px;
-            background: #f8fafc; /* Default fallback */
             border: 1px solid rgba(0,0,0,0.06);
             border-radius: 12px;
             transition: all 0.2s;
@@ -119,14 +118,15 @@
             padding: 2px 8px;
             border-radius: 6px;
         }
+        /* Completed state keeps the custom background, but styles text and borders */
         .completed {
-            background: #f1f5f9 !important;
-            border-color: #e2e8f0;
-            filter: none !important;
+            border-color: #cbd5e1;
+            opacity: 0.75;
         }
-        .completed .todo-title { text-decoration: line-through; color: #94a3b8; }
-        .completed .todo-desc { color: #cbd5e1; }
-        .completed .todo-deadline { background-color: #e2e8f0; color: #94a3b8; }
+        .completed .todo-title { text-decoration: line-through; color: #64748b; }
+        .completed .todo-desc { color: #94a3b8; }
+        .completed .todo-deadline { background-color: rgba(100, 116, 139, 0.15); color: #64748b; }
+        
         .user-status {
             font-size: 13px;
             color: #334155;
@@ -403,8 +403,8 @@
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
             
-            // Explicitly set background color (overriding default class style when active)
-            if (!isChecked && task.bgColor) {
+            // Apply custom background color whether completed or not
+            if (task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
 
