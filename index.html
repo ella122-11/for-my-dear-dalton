@@ -37,8 +37,70 @@
         .subtitle {
             font-size: 14px;
             color: #64748b;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: 500;
+        }
+        /* Progress Bar Styling */
+        .progress-container {
+            margin-bottom: 20px;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .progress-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #0284c7 0%, #0274d8 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        /* Filter Buttons Styling */
+        .filter-buttons {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+        }
+        .filter-buttons::-webkit-scrollbar {
+            height: 4px;
+        }
+        .filter-buttons::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .filter-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover {
+            background: #e2e8f0;
+        }
+        .filter-btn.active {
+            background: #0274d8;
+            color: white;
+            border-color: #0274d8;
         }
         .input-field {
             width: 100%;
@@ -118,7 +180,6 @@
             padding: 2px 8px;
             border-radius: 6px;
         }
-        /* Completed state keeps the custom background, but styles text and borders */
         .completed {
             border-color: #cbd5e1;
             opacity: 0.75;
@@ -134,7 +195,7 @@
             border: 1px solid #e0f2fe;
             padding: 12px 16px;
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -198,6 +259,25 @@
     </div>
 
     <div id="tracker-area" class="hidden">
+        <!-- Progress Bar & Counter -->
+        <div class="progress-container">
+            <div id="progress-stats" class="progress-text">0 of 0 tasks completed (0%)</div>
+            <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+        </div>
+
+        <!-- Subject Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Pre-Calculus">Pre-Cal</button>
+            <button class="filter-btn" data-filter="Physics">Physics</button>
+            <button class="filter-btn" data-filter="Research">Research</button>
+            <button class="filter-btn" data-filter="Filipino">Filipino</button>
+            <button class="filter-btn" data-filter="EAPP">EAPP</button>
+            <button class="filter-btn" data-filter="HOPE">HOPE</button>
+        </div>
+
         <div id="todo-list"></div>
     </div>
 </div>
@@ -219,61 +299,70 @@
             title: "Pre-Calculus: Parabola in Real-Life Activity",
             description: "Check Google Classroom for more information..",
             deadline: "No specific date",
-            bgColor: "#eff6ff" // Soft Blue
+            bgColor: "#eff6ff",
+            subject: "Pre-Calculus"
         },
         {
             id: "task_002",
             title: "Pre-Calculus: Quiz#2",
             description: "Check Google Classroom for more information.",
             deadline: "No specific Date",
-            bgColor: "#fef2f2" // Soft Red
+            bgColor: "#fef2f2",
+            subject: "Pre-Calculus"
         },
         {
             id: "task_003",
             title: "Filipino: Pink Long Clear Book Compilation of Works",
             description: "Compilation of activities and quizzes.",
             deadline: "September 4",
-            bgColor: "#fdf4ff" // Soft Purple/Pink
+            bgColor: "#fdf4ff",
+            subject: "Filipino"
         },
         {
             id: "task_004",
             title: "Practical Research 2: Checking of Final Draft of Background of the Study and Proposed Title",
             description: "Checking of final draft of Background of the study and proposed title of your studies.",
             deadline: "July 13",
-            bgColor: "#f0fdf4" // Soft Green
+            bgColor: "#f0fdf4",
+            subject: "Research"
         },
         {
             id: "task_005",
             title: "Physics: Friday Asynchronous Activity",
             description: "Summary notes about the 3 videos sent, and answer word problem.",
             deadline: "July 14",
-            bgColor: "#fffbeb" // Soft Yellow
+            bgColor: "#fffbeb",
+            subject: "Physics"
         },
         {
             id: "task_006",
             title: "EAPP: Friday Asynchronous Activity",
             description: "Before bed time, recall how your day was during the 1st cancellation of classes today. Front page, short paragraph of summary about your day and at the back of the paper, rewrite it using roman numerals, letters, and hindu arabic numbers to separate main point and key points.",
             deadline: "July 14",
-            bgColor: "#faf5ff" // Soft Violet
+            bgColor: "#faf5ff",
+            subject: "EAPP"
         },
         {
             id: "task_007",
             title: "Practical Research 2: Friday Asynchronous Activity",
             description: "Submit the outline of your background of the study and proposed title.",
             deadline: "July 13 or 14",
-            bgColor: "#f0fdf4" // Soft Green
+            bgColor: "#f0fdf4",
+            subject: "Research"
         },
         {
             id: "task_008",
             title: "HOPE 3: Friday Asynchronous Activity",
             description: "Answer the Google Form given.",
             deadline: "July 11",
-            bgColor: "#fff7ed" // Soft Orange
+            bgColor: "#fff7ed",
+            subject: "HOPE"
         }
     ];
 
     let currentUser = null;
     let userProgress = {};
+    let currentFilter = 'all';
     let lastAction = null; 
     let toastTimeout = null;
 
@@ -363,7 +452,18 @@
         renderTodoList();
     }
 
+    function updateProgressStats() {
+        const totalTasks = MASTER_TASKS.length;
+        const completedTasks = MASTER_TASKS.filter(task => userProgress[task.id]).length;
+        const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+        document.getElementById('progress-stats').innerText = `${completedTasks} of ${totalTasks} tasks completed (${percentage}%)`;
+        document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+    }
+
     function renderTodoList() {
+        updateProgressStats();
+
         const listContainer = document.getElementById('todo-list');
         listContainer.innerHTML = '';
 
@@ -390,7 +490,13 @@
             return parsedDate;
         };
 
-        const sortedTasks = [...MASTER_TASKS].sort((a, b) => {
+        // Filter tasks by subject
+        const filteredTasks = MASTER_TASKS.filter(task => {
+            if (currentFilter === 'all') return true;
+            return task.subject === currentFilter;
+        });
+
+        const sortedTasks = [...filteredTasks].sort((a, b) => {
             const isCheckedA = userProgress[a.id] || false;
             const isCheckedB = userProgress[b.id] || false;
 
@@ -398,12 +504,16 @@
             return getDeadlineDate(a.deadline) - getDeadlineDate(b.deadline);
         });
 
+        if (sortedTasks.length === 0) {
+            listContainer.innerHTML = `<div style="text-align: center; color: #64748b; padding: 20px; font-size: 14px;">No tasks found for this filter.</div>`;
+            return;
+        }
+
         sortedTasks.forEach(task => {
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
             
-            // Apply custom background color whether completed or not
             if (task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
@@ -466,6 +576,16 @@
             });
         });
     }
+
+    // Filter button listeners
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.getAttribute('data-filter');
+            renderTodoList();
+        });
+    });
 
     document.getElementById('undo-btn').addEventListener('click', () => {
         if (lastAction) {
