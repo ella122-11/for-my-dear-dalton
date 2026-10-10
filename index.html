@@ -67,13 +67,13 @@
             width: 0%;
             transition: width 0.3s ease;
         }
-        /* Filter Buttons Styling */
+        /* Filter Buttons & Controls */
         .filter-buttons {
             display: flex;
             gap: 6px;
             overflow-x: auto;
             padding-bottom: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .filter-buttons::-webkit-scrollbar {
             height: 4px;
@@ -101,6 +101,28 @@
             background: #0274d8;
             color: white;
             border-color: #0274d8;
+        }
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        .toggle-completed-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .toggle-completed-btn:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
         }
         .input-field {
             width: 100%;
@@ -278,6 +300,12 @@
             <button class="filter-btn" data-filter="HOPE">HOPE</button>
         </div>
 
+        <!-- Toggle Completed Tasks Visibility -->
+        <div class="controls-row">
+            <span style="color: #64748b;" id="hidden-count-text">Completed tasks are hidden</span>
+            <button id="toggle-completed-btn" class="toggle-completed-btn">Show Completed</button>
+        </div>
+
         <div id="todo-list"></div>
     </div>
 </div>
@@ -363,6 +391,7 @@
     let currentUser = null;
     let userProgress = {};
     let currentFilter = 'all';
+    let showCompleted = false; // Toggle state for hidden completed tasks
     let lastAction = null; 
     let toastTimeout = null;
 
@@ -459,6 +488,17 @@
 
         document.getElementById('progress-stats').innerText = `${completedTasks} of ${totalTasks} tasks completed (${percentage}%)`;
         document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+
+        // Update helper text about hidden completed tasks
+        const hiddenCount = completedTasks;
+        const hiddenTextElem = document.getElementById('hidden-count-text');
+        if (!showCompleted && hiddenCount > 0) {
+            hiddenTextElem.innerText = `${hiddenCount} completed task${hiddenCount > 1 ? 's' : ''} hidden`;
+        } else if (!showCompleted) {
+            hiddenTextElem.innerText = `Completed tasks are hidden`;
+        } else {
+            hiddenTextElem.innerText = `Showing all tasks`;
+        }
     }
 
     function renderTodoList() {
@@ -490,10 +530,21 @@
             return parsedDate;
         };
 
-        // Filter tasks by subject
+        // Filter tasks by subject AND visibility of completed tasks
         const filteredTasks = MASTER_TASKS.filter(task => {
-            if (currentFilter === 'all') return true;
-            return task.subject === currentFilter;
+            const isChecked = userProgress[task.id] || false;
+            
+            // Hide completed items if toggle is off
+            if (!showCompleted && isChecked) {
+                return false;
+            }
+
+            // Filter by subject category
+            if (currentFilter !== 'all' && task.subject !== currentFilter) {
+                return false;
+            }
+
+            return true;
         });
 
         const sortedTasks = [...filteredTasks].sort((a, b) => {
@@ -505,7 +556,7 @@
         });
 
         if (sortedTasks.length === 0) {
-            listContainer.innerHTML = `<div style="text-align: center; color: #64748b; padding: 20px; font-size: 14px;">No tasks found for this filter.</div>`;
+            listContainer.innerHTML = `<div style="text-align: center; color: #64748b; padding: 20px; font-size: 14px;">No tasks match your current view.</div>`;
             return;
         }
 
@@ -585,6 +636,13 @@
             currentFilter = e.target.getAttribute('data-filter');
             renderTodoList();
         });
+    });
+
+    // Toggle completed tasks button listener
+    document.getElementById('toggle-completed-btn').addEventListener('click', (e) => {
+        showCompleted = !showCompleted;
+        e.target.innerText = showCompleted ? "Hide Completed" : "Show Completed";
+        renderTodoList();
     });
 
     document.getElementById('undo-btn').addEventListener('click', () => {
