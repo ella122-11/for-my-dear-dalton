@@ -91,7 +91,8 @@
             align-items: flex-start;
             padding: 16px;
             margin-bottom: 12px;
-            border: 1px solid rgba(0,0,0,0.05);
+            background: #f8fafc; /* Default fallback */
+            border: 1px solid rgba(0,0,0,0.06);
             border-radius: 12px;
             transition: all 0.2s;
         }
@@ -273,7 +274,7 @@
 
     let currentUser = null;
     let userProgress = {};
-    let lastAction = null; // Stores info for the Undo feature
+    let lastAction = null; 
     let toastTimeout = null;
 
     const localBackup = localStorage.getItem('dalton_todo_progress');
@@ -402,7 +403,7 @@
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
             
-            // Apply custom background color if not completed
+            // Explicitly set background color (overriding default class style when active)
             if (!isChecked && task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
@@ -439,7 +440,6 @@
     async function updateTaskState(taskId, isChecked, isUndo = false) {
         const previousState = !!userProgress[taskId];
         
-        // Save state for undo
         lastAction = { taskId, previousState };
 
         userProgress[taskId] = isChecked;
@@ -467,7 +467,6 @@
         });
     }
 
-    // Undo Button Listener
     document.getElementById('undo-btn').addEventListener('click', () => {
         if (lastAction) {
             updateTaskState(lastAction.taskId, lastAction.previousState, true);
