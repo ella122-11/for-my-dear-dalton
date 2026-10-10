@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dalton's To-Do List</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="dalton-cover.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="dalton-cover.jpg">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
@@ -210,7 +212,7 @@
         .completed .todo-title { text-decoration: line-through; color: #64748b; }
         .completed .todo-desc { color: #94a3b8; }
         .completed .todo-deadline { background-color: rgba(100, 116, 139, 0.15); color: #64748b; }
-        
+
         .user-status {
             font-size: 13px;
             color: #334155;
@@ -526,7 +528,7 @@
 
         const filteredTasks = MASTER_TASKS.filter(task => {
             const isChecked = userProgress[task.id] || false;
-            
+
             if (!showCompleted && isChecked) {
                 return false;
             }
