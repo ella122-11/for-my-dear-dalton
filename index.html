@@ -138,7 +138,6 @@
             justify-content: space-between;
             align-items: center;
         }
-        /* Toast Notification Styling for Undo */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -1036,10 +1035,9 @@
             deadline: "October 13"
        }
     ];
-
-    let currentUser = null;
+let currentUser = null;
     let userProgress = {};
-    let lastAction = null;
+    let lastAction = null; // Stores info for the Undo feature
     let toastTimeout = null;
 
     const localBackup = localStorage.getItem('dalton_todo_progress');
@@ -1134,7 +1132,7 @@
 
         const getDeadlineDate = (deadline) => {
             if (!deadline ||
-                deadline.toLowerCase().includes("no specific") ||
+                deadline.toLowerCase().includes("no specific") || 
                 deadline.toLowerCase().includes("end of term") ||
                 deadline.toLowerCase().includes("next week") ||
                 deadline.toLowerCase().includes("before exam")) {
@@ -1167,7 +1165,8 @@
             const isChecked = userProgress[task.id] || false;
             const itemDiv = document.createElement('div');
             itemDiv.className = `todo-item ${isChecked ? 'completed' : ''}`;
-
+            
+            // Apply custom background color if not completed
             if (!isChecked && task.bgColor) {
                 itemDiv.style.backgroundColor = task.bgColor;
             }
@@ -1194,7 +1193,7 @@
         const toast = document.getElementById('toast');
         document.getElementById('toast-msg').innerText = message;
         toast.className = "show";
-
+        
         clearTimeout(toastTimeout);
         toastTimeout = setTimeout(() => {
             toast.className = toast.className.replace("show", "");
@@ -1203,7 +1202,8 @@
 
     async function updateTaskState(taskId, isChecked, isUndo = false) {
         const previousState = !!userProgress[taskId];
-
+        
+        // Save state for undo
         lastAction = { taskId, previousState };
 
         userProgress[taskId] = isChecked;
@@ -1219,6 +1219,7 @@
                 .from('user_progress')
                 .upsert({ user_id: currentUser.id, task_id: taskId, is_completed: isChecked }, { onConflict: 'user_id,task_id' });
 
+            // Trigger Email Notification hook via Supabase Edge Function
             try {
                 await supabaseClient.functions.invoke('notify-task-update', {
                     body: { email: currentUser.email, taskId, isCompleted: isChecked }
@@ -1239,6 +1240,7 @@
         });
     }
 
+    // Undo Button Listener
     document.getElementById('undo-btn').addEventListener('click', () => {
         if (lastAction) {
             updateTaskState(lastAction.taskId, lastAction.previousState, true);
