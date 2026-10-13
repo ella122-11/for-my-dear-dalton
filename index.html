@@ -6,24 +6,7 @@
     <title>Dalton's To-Do List</title>
     <link rel="icon" type="image/png" sizes="32x32" href="dalton-cover.jpg">
     <link rel="apple-touch-icon" sizes="180x180" href="dalton-cover.jpg">
-
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- OneSignal Web Push SDK -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "4c3f8c75-8b8c-4b71-b4f1-009fb9ab9534",
-          notifyButton: {
-            enable: false,
-          },
-        });
-      });
-    </script>
-
     <style>
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -59,7 +42,6 @@
             margin-bottom: 20px;
             font-weight: 500;
         }
-        /* Progress Bar Styling */
         .progress-container {
             margin-bottom: 20px;
             background: #f8fafc;
@@ -86,7 +68,6 @@
             width: 0%;
             transition: width 0.3s ease;
         }
-        /* Subject Filter Buttons */
         .filter-buttons {
             display: flex;
             gap: 6px;
@@ -121,12 +102,11 @@
             color: white;
             border-color: #0274d8;
         }
-        /* Controls & Toggle Button */
         .controls-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             font-size: 13px;
         }
         .toggle-completed-btn {
@@ -143,22 +123,6 @@
         .toggle-completed-btn:hover {
             background: #f1f5f9;
             border-color: #94a3b8;
-        }
-        .notify-btn {
-            width: 100%;
-            background: #e0f2fe;
-            color: #0274d8;
-            border: 1px solid #bae6fd;
-            padding: 8px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 12px;
-            margin-bottom: 15px;
-            transition: all 0.2s;
-        }
-        .notify-btn:hover {
-            background: #bae6fd;
         }
         .input-field {
             width: 100%;
@@ -332,9 +296,6 @@
             <button class="filter-btn" data-filter="III">III</button>
         </div>
 
-        <!-- Push Notifications Request Button -->
-        <button id="notify-perm-btn" class="notify-btn">🔔 Enable Push Notifications for New Updates</button>
-
         <div class="controls-row">
             <span style="color: #64748b;" id="hidden-count-text">Completed tasks are hidden</span>
             <button id="toggle-completed-btn" class="toggle-completed-btn">Show Completed</button>
@@ -432,20 +393,6 @@
     if (localBackup) {
         userProgress = JSON.parse(localBackup);
     }
-
-    /* OneSignal Push Permission Listener */
-    const notifyPermBtn = document.getElementById('notify-perm-btn');
-    notifyPermBtn.addEventListener('click', () => {
-        window.OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.Notifications.requestPermission();
-            if (OneSignal.Notifications.permission) {
-                notifyPermBtn.innerText = "🔔 Push Notifications Active";
-                notifyPermBtn.style.background = "#f0fdf4";
-                notifyPermBtn.style.color = "#166534";
-                notifyPermBtn.style.borderColor = "#bbf7d0";
-            }
-        });
-    });
 
     document.getElementById('login-btn').addEventListener('click', async () => {
         const email = document.getElementById('student-email').value.trim();
